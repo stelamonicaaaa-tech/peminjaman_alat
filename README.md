@@ -520,3 +520,79 @@ Project Laravel dari GitHub sekarang sudah bisa dijalankan di Laragon! 🎉
 - Atau register manual di /register
 
 Semoga membantu! 🚀
+
+
+
+
+Cara Install Laravel dari GitHub di XAMPP - SINGKAT
+✅ PERSIAPAN
+Install dulu:
+XAMPP - https://www.apachefriends.org/
+Composer - https://getcomposer.org/
+Git (optional) - https://git-scm.com/
+📦 LANGKAH INSTALL
+1. Clone Project
+# Buka CMD
+cd C:\xampp\htdocs
+
+# Clone
+git clone https://github.com/username/peminjaman_alat.git
+
+# Masuk folder
+cd peminjaman_alat
+Atau download ZIP:
+Download dari GitHub → Extract ke C:\xampp\htdocs\
+2. Install Dependencies
+composer install
+npm install
+Tunggu 2-5 menit
+3. Setup Environment
+copy .env.example .env
+php artisan key:generate
+Edit file .env:
+DB_DATABASE=peminjaman_alat
+DB_USERNAME=root
+DB_PASSWORD=
+Password kosong untuk XAMPP
+4. Nyalakan XAMPP
+Buka XAMPP Control Panel
+Start Apache & MySQL (tunggu jadi hijau)
+5. Buat Database
+Buka browser: http://localhost/phpmyadmin
+Klik Databases → Buat database: peminjaman_alat
+6. Migration & Setup
+php artisan migrate
+php artisan db:seed
+php artisan storage:link
+php artisan optimize:clear
+7. Jalankan Website
+Buka browser:
+http://localhost/peminjaman_alat/public
+SELESAI! 🎉
+⚡ QUICK COMMANDS
+# Satu baris install
+composer install && npm install && copy .env.example .env && php artisan key:generate
+
+# Setup database
+php artisan migrate && php artisan db:seed
+
+# Clear everything
+php artisan optimize:clear
+🔧 ERROR? COBA INI
+Apache gak bisa start:
+Port 80 bentrok → Matikan Skype/program lain
+Composer not found:
+Install Composer → Restart CMD
+Database error:
+Cek MySQL XAMPP nyala (hijau)
+Cek nama database di .env sama dengan phpMyAdmin
+Error 500:
+php artisan key:generate
+php artisan config:clear
+📌 STRUKTUR FOLDER
+C:\xampp\htdocs\peminjaman_alat\
+    ├── .env              ← Konfigurasi
+    ├── vendor/           ← Hasil composer install
+    ├── public/           ← Akses via browser
+    └── database/
+        └── migrations/   ← Bikin tabel
