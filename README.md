@@ -57,3 +57,466 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+# 🚀 Cara Menjalankan Project Laravel dari GitHub di Laragon
+
+## 📋 Langkah-langkah Lengkap
+
+---
+
+## METODE 1: Clone via Terminal Laragon (Recommended)
+
+### Step 1: Buka Terminal Laragon
+Klik kanan icon Laragon → **Terminal**
+
+### Step 2: Masuk ke Folder www
+```bash
+cd C:\laragon\www
+```
+
+### Step 3: Clone Repository
+```bash
+git clone https://github.com/alfisyukri422-web/peminjaman_alat.git
+```
+
+**Contoh:**
+```bash
+git clone https://github.com/alfisyukri422/peminjaman_alat.git
+```
+
+### Step 4: Masuk ke Folder Project
+```bash
+cd peminjaman_alat
+```
+
+**Contoh:**
+```bash
+cd peminjaman_alat
+```
+
+### Step 5: Install Dependencies
+```bash
+composer install
+```
+
+*Tunggu hingga selesai (2-5 menit)*
+
+### Step 6: Install Node Dependencies (jika ada)
+```bash
+npm install
+# atau
+npm install --legacy-peer-deps
+```
+
+### Step 7: Copy File .env
+```bash
+copy .env.example .env
+```
+
+### Step 8: Generate Application Key
+```bash
+php artisan key:generate
+```
+
+### Step 9: Konfigurasi Database
+Edit file `.env`:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=Peminjaman_alat
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### Step 10: Buat Database
+1. Buka HeidiSQL (Laragon → Database → HeidiSQL)
+2. Klik kanan → Create new → Database
+3. Nama: `Peminjaman_alat` (sesuai .env)
+4. Klik OK
+
+### Step 11: Jalankan Migration
+```bash
+php artisan migrate
+```
+
+**Atau jika ada file SQL:**
+1. Buka HeidiSQL
+2. Pilih database yang baru dibuat
+3. File → Load SQL file
+4. Pilih file .sql
+5. Execute (F9)
+
+### Step 12: Jalankan Seeder (jika ada)
+```bash
+php artisan db:seed
+```
+
+### Step 13: Create Storage Link
+```bash
+php artisan storage:link
+```
+
+### Step 14: Clear Cache
+```bash
+php artisan optimize:clear
+```
+
+### Step 15: Akses Website
+Buka browser: **http://nama-folder.test**
+
+**Contoh:**
+- http://peminjaman-alat.test
+
+**Jika tidak bisa:**
+- http://localhost/nama-folder/public
+
+---
+
+## METODE 2: Download ZIP dari GitHub
+
+### Step 1: Download Project
+1. Buka repository di GitHub
+2. Klik tombol **Code** (hijau)
+3. Klik **Download ZIP**
+4. Extract ZIP ke folder `C:\laragon\www\`
+
+### Step 2: Rename Folder
+Rename folder hasil extract (hilangkan `-main` atau `-master`)
+
+**Contoh:**
+- Dari: `peminjaman-alat-main`
+- Jadi: `peminjaman-alat`
+
+### Step 3: Buka Terminal
+Klik kanan icon Laragon → Terminal
+
+### Step 4: Masuk ke Folder Project
+```bash
+cd C:\laragon\www\nama-folder
+```
+
+### Step 5: Lanjutkan dari Step 5 Metode 1
+(Install composer, copy .env, dst...)
+
+---
+
+## 📝 CHECKLIST INSTALASI
+
+```
+✅ Clone/Download project dari GitHub
+✅ Masuk ke folder project
+✅ composer install
+✅ npm install (jika ada package.json)
+✅ copy .env.example .env
+✅ php artisan key:generate
+✅ Edit .env (database config)
+✅ Buat database di HeidiSQL
+✅ php artisan migrate (atau import SQL)
+✅ php artisan db:seed (jika ada)
+✅ php artisan storage:link
+✅ php artisan optimize:clear
+✅ Akses di browser
+```
+
+---
+
+## 🔧 TROUBLESHOOTING
+
+### Error: "composer: command not found"
+```bash
+# Restart terminal Laragon atau
+# Pastikan Composer terinstall di Laragon
+```
+
+### Error: "Class not found"
+```bash
+composer dump-autoload
+php artisan optimize:clear
+```
+
+### Error: "No application encryption key"
+```bash
+php artisan key:generate
+```
+
+### Error: "SQLSTATE[HY000] [1049] Unknown database"
+```
+Buat database dulu di HeidiSQL sesuai nama di .env
+```
+
+### Error: "permission denied" (folder storage/logs)
+```bash
+# Windows - Di terminal Laragon:
+mkdir storage\logs
+mkdir storage\framework\cache
+mkdir storage\framework\sessions
+mkdir storage\framework\views
+
+# Atau buat manual via File Explorer
+```
+
+### Error: Virtual host tidak bisa diakses
+**Solusi 1: Restart Laragon**
+- Stop All
+- Start All
+
+**Solusi 2: Akses via localhost**
+- http://localhost/nama-folder/public
+
+**Solusi 3: Edit hosts file**
+1. Buka Notepad sebagai Administrator
+2. Buka file: `C:\Windows\System32\drivers\etc\hosts`
+3. Tambahkan: `127.0.0.1 nama-folder.test`
+4. Save
+5. Restart browser
+
+### Error: npm install gagal
+```bash
+# Coba dengan flag legacy
+npm install --legacy-peer-deps
+
+# Atau hapus node_modules dan coba lagi
+rmdir /s node_modules
+del package-lock.json
+npm install
+```
+
+### Error: Vite not found / npm run dev error
+```bash
+npm install
+npm run build
+```
+
+---
+
+## 📦 STRUKTUR PROJECT LARAVEL DARI GITHUB
+
+Biasanya project Laravel dari GitHub akan memiliki:
+
+```
+nama-project/
+├── .env.example          ← Template konfigurasi
+├── composer.json         ← Dependencies PHP
+├── package.json          ← Dependencies Node (optional)
+├── database/
+│   ├── migrations/       ← File migration
+│   └── seeders/          ← File seeder
+├── app/
+├── routes/
+├── resources/
+└── public/
+```
+
+**Yang TIDAK ada di GitHub:**
+- `.env` (harus copy dari .env.example)
+- `vendor/` (harus install via composer)
+- `node_modules/` (harus install via npm)
+
+---
+
+## 🎯 TIPS PENTING
+
+### 1. Selalu Baca README.md
+Buka file `README.md` di repository GitHub untuk instruksi spesifik project tersebut.
+
+### 2. Cek File .env.example
+Lihat konfigurasi apa saja yang diperlukan:
+- Database name
+- API keys
+- Storage settings
+- dll
+
+### 3. Cek composer.json
+Lihat versi PHP yang dibutuhkan:
+```json
+"require": {
+    "php": "^8.2",
+    ...
+}
+```
+
+### 4. Perhatikan Dependencies
+Beberapa project butuh:
+- Redis
+- Queue worker
+- Node.js untuk Vite/Mix
+- Extensions PHP tertentu
+
+### 5. Migration vs SQL File
+**Jika ada folder `database/migrations/`:**
+```bash
+php artisan migrate
+php artisan db:seed
+```
+
+**Jika ada file `.sql`:**
+- Import via HeidiSQL
+
+---
+
+## 🚀 QUICK COMMAND REFERENCE
+
+```bash
+# Clone project
+git clone URL-REPOSITORY
+cd nama-folder
+
+# Install dependencies
+composer install
+npm install
+
+# Setup environment
+copy .env.example .env
+php artisan key:generate
+
+# Database (pilih salah satu)
+php artisan migrate          # Via migration
+# atau import SQL via HeidiSQL
+
+# Seed data
+php artisan db:seed
+
+# Create storage link
+php artisan storage:link
+
+# Clear cache
+php artisan optimize:clear
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+
+# Build assets (jika pakai Vite/Mix)
+npm run build
+# atau untuk development
+npm run dev
+```
+
+---
+
+## 📌 CONTOH LENGKAP
+
+### Clone Project "peminjaman-alat"
+
+```bash
+# 1. Buka terminal Laragon
+cd C:\laragon\www
+
+# 2. Clone
+git clone https://github.com/john/peminjaman-alat.git
+cd peminjaman-alat
+
+# 3. Install
+composer install
+
+# 4. Setup
+copy .env.example .env
+php artisan key:generate
+
+# 5. Edit .env
+# DB_DATABASE=peminjaman_alat
+
+# 6. Buat database "peminjaman_alat" di HeidiSQL
+
+# 7. Import SQL (jika ada file .sql)
+# Atau jalankan migration:
+php artisan migrate
+php artisan db:seed
+
+# 8. Finishing
+php artisan storage:link
+php artisan optimize:clear
+
+# 9. Akses
+# http://peminjaman-alat.test
+```
+
+---
+
+## ⚡ LARAGON SPECIFIC TIPS
+
+### Pretty URLs
+Laragon otomatis membuat virtual host dengan format:
+```
+http://nama-folder.test
+```
+
+### Database Tool
+HeidiSQL sudah built-in:
+- Klik kanan Laragon → Database → HeidiSQL
+- Default: username `root`, password kosong
+
+### SSL Certificate
+Untuk HTTPS:
+- Klik kanan Laragon → Apache → SSL → nama-folder.test
+- Akses: https://nama-folder.test
+
+### Quick Terminal
+- Klik kanan Laragon → Terminal
+- Sudah include PHP, Composer, Git, Node
+
+### Stop/Start Services
+- Klik kanan icon → Stop All
+- Klik kanan icon → Start All
+
+---
+
+## 🎓 BEST PRACTICES
+
+### 1. Gunakan Git Branch
+```bash
+git checkout -b development
+# Jangan langsung edit di branch main
+```
+
+### 2. Backup Database
+Sebelum migrate:
+```bash
+# Export database dulu via HeidiSQL
+```
+
+### 3. Cek Versi PHP
+```bash
+php -v
+# Pastikan sesuai requirement project
+```
+
+### 4. Update Composer
+```bash
+composer update
+# Hanya jika diperlukan
+```
+
+### 5. Dokumentasi
+Buat catatan perubahan konfigurasi yang Anda lakukan.
+
+---
+
+## ❓ FAQ
+
+**Q: Kenapa composer install lama?**
+A: Tergantung dependencies. Bisa 2-10 menit. Pastikan koneksi internet stabil.
+
+**Q: Harus install npm?**
+A: Hanya jika project pakai Vite/Laravel Mix (ada file package.json).
+
+**Q: Database sudah ada, tetap migrate?**
+A: Jika ada data, jangan migrate. Import SQL saja.
+
+**Q: Error 500 setelah clone?**
+A: Cek .env, pastikan APP_KEY ada. Jalankan `php artisan key:generate`.
+
+**Q: Folder vendor tidak ada?**
+A: Normal. Harus install via `composer install`.
+
+---
+
+## ✅ SELESAI!
+
+Project Laravel dari GitHub sekarang sudah bisa dijalankan di Laragon! 🎉
+
+**Untuk project peminjaman-alat:**
+- Login: sesuai database atau buat via `php artisan db:seed`
+- Atau register manual di /register
+
+Semoga membantu! 🚀
